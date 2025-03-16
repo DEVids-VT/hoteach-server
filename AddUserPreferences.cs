@@ -27,7 +27,7 @@ namespace HoTeach
 
         [Function("AddUserPreferences")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "user-preferences")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user-preferences")] HttpRequest req)
         {
             try
             {
