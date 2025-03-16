@@ -16,7 +16,7 @@ namespace HoTeach
        
 
         [Function("GenerateLearningPlan")]
-        public async  Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+        public async  Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req)
         {
             try
             {

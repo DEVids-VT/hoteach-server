@@ -21,7 +21,7 @@ namespace HoTeach
         }
 
         [Function("GetLearningPath")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req)
         {
 
             try
