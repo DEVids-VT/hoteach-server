@@ -1,5 +1,6 @@
 using HoTeach.Infrastructure.Configuration;
 using HoTeach.Infrastructure.Extensions;
+using HoTeach.Payments.Services;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

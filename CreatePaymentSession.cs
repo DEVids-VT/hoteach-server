@@ -6,11 +6,11 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using HoteachServer.Payments.Services;
-using HoteachServer.Payments.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
+using HoTeach.Payments.Models;
+using HoTeach.Payments.Services;
 
 namespace HoTeach
 {
@@ -59,7 +59,6 @@ namespace HoTeach
 
                 var stripeService = new StripeService(stripeSecretKey, webhookSecret);
                 var paymentResponse = await stripeService.CreatePaymentSessionAsync(request);
-
         
                 return new OkObjectResult(paymentResponse);
             }

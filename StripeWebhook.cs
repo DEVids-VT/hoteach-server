@@ -6,19 +6,22 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Stripe;
-using HoteachServer.Payments.Services;
 using System.Net;
 using System.Text.Json;
+using HoTeach.Entities;
+using HoTeach.Infrastructure.Interfaces;
+using HoTeach.Payments.Services;
 
 namespace HoTeach
 {
     public class StripeWebhook
     {
         private readonly ILogger<StripeWebhook> _logger;
-
-        public StripeWebhook(ILogger<StripeWebhook> logger)
+        private readonly IRepository<Payment> _paymentRepository;
+        public StripeWebhook(ILogger<StripeWebhook> logger, IRepository<Payment> paymnRepository)
         {
             _logger = logger;
+            _paymentRepository = paymnRepository;
         }
 
         [Function("StripeWebhook")]
@@ -89,6 +92,20 @@ namespace HoTeach
         private async Task HandleSuccessfulPayment(Stripe.Checkout.Session session)
         {
             _logger.LogInformation($"Payment successful for customer {session.CustomerId}");
+
+            var stripeSecretKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
+            var webhookSecret = Environment.GetEnvironmentVariable("STRIPE_WEBHOOK_SECRET");
+
+
+
+            var stripeService = new StripeService(stripeSecretKey, webhookSecret);
+            var customer = await stripeService.GetCustomer(session.CustomerId);
+
+            await _paymentRepository.InsertAsync(new Payment()
+            {
+                PaymentIntentId = session.PaymentIntentId,
+                UserId = customer.Metadata["UserId"]
+            });
             await Task.CompletedTask;
         }
     }
