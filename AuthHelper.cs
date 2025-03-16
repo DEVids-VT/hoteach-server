@@ -21,8 +21,8 @@ namespace HoTeach
             var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
             var validationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
             {
-                ValidIssuer = $"https://<your-domain>.auth0.com/",
-                ValidAudience = "https://your-functions-api",
+                ValidIssuer = $"https://dev-m31s5020w8rygw8y.us.auth0.com/",
+                ValidAudience = "https://hoteachaudience.com",
                 IssuerSigningKeys = OpenIdConnectConfigurationRetriever
                     .GetAsync($"https://dev-m31s5020w8rygw8y.us.auth0.com/.well-known/openid-configuration", default)
                     .GetAwaiter().GetResult()
