@@ -31,6 +31,16 @@ namespace HoTeach
         {
             try
             {
+                var principal = AuthHelper.ValidateToken(req);
+                _logger.LogInformation($"Authenticated user: {principal.Identity.Name}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return new UnauthorizedResult();
+            }
+            try
+            {
                
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 var preferences = JsonSerializer.Deserialize<UserPreferences>(requestBody);

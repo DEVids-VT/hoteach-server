@@ -30,10 +30,6 @@ namespace HoTeach
             try
             {
                 var principal = AuthHelper.ValidateToken(req);
-                if (!AuthHelper.HasScope(principal, "hoteach:default"))
-                {
-                    return new UnauthorizedResult();
-                }
                 logger.LogInformation($"Authenticated user: {principal.Identity.Name}");
             }
             catch (Exception ex)
