@@ -67,8 +67,8 @@ namespace HoTeach.Payments.Services
                     }
                 },
                 Mode = "payment",
-                SuccessUrl = "https://your-domain.com/success",
-                CancelUrl = "https://your-domain.com/cancel"
+                SuccessUrl = "https://dashboard.hoteach.com/activation",
+                CancelUrl = "https://dashboard.hoteach.com/"
             };
 
             var service = new SessionService();
