@@ -1,7 +1,13 @@
+using HoTeach.Infrastructure.Configuration;
+using HoTeach.Infrastructure.Extensions;
 using Microsoft.Azure.Functions.Worker.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using OpenAI.Chat;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
@@ -26,9 +32,25 @@ builder.Services
         };
     });
 
-// Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
-// builder.Services
-//     .AddApplicationInsightsTelemetryWorkerService()
-//     .ConfigureFunctionsApplicationInsights();
+builder.Services.AddSingleton(new ChatClient(model: "gpt-4o-mini", Environment.GetEnvironmentVariable("OpenAIApiKey")));
+
+var mongoConfig = builder.Configuration.GetSection("Mongo");
+string mongoUrl = mongoConfig["Url"];
+string databaseName = mongoConfig["Database"];
+builder.Services.AddMongoDatabase(p =>
+{
+    p.WithConnectionString(mongoUrl);
+    p.WithDatabaseName(databaseName);
+    p.WithSoftDeletes(o =>
+    {
+        o.Enabled(true);
+    });
+    p.RepresentEnumValuesAs(BsonType.String);
+    p.WithIgnoreIfDefaultConvention(false);
+    p.WithIgnoreIfNullConvention(true);
+});
+//builder.Services
+//    .AddApplicationInsightsTelemetryWorkerService()
+//    .ConfigureFunctionsApplicationInsights();
 
 builder.Build().Run();
