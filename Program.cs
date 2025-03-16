@@ -50,8 +50,8 @@ builder.Services.AddMongoDatabase(p =>
     p.WithIgnoreIfDefaultConvention(false);
     p.WithIgnoreIfNullConvention(true);
 });
-//builder.Services
-//    .AddApplicationInsightsTelemetryWorkerService()
-//    .ConfigureFunctionsApplicationInsights();
+builder.Services
+    .AddApplicationInsightsTelemetryWorkerService()
+    .ConfigureFunctionsApplicationInsights();
 
 builder.Build().Run();
