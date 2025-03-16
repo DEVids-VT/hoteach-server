@@ -1,4 +1,4 @@
-namespace HoteachServer.Payments.Models
+namespace HoTeach.Payments.Models
 {
     public class PaymentResponse
     {

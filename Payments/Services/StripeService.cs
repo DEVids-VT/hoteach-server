@@ -1,8 +1,8 @@
 using Stripe;
 using Stripe.Checkout;
-using HoteachServer.Payments.Models;
+using HoTeach.Payments.Models;
 
-namespace HoteachServer.Payments.Services
+namespace HoTeach.Payments.Services
 {
     public class StripeService
     {
@@ -29,12 +29,23 @@ namespace HoteachServer.Payments.Services
             };
         }
 
+        public async Task<Customer> GetCustomer(string customerId)
+        {
+            var service = new CustomerService();
+
+            return await service.GetAsync(customerId);
+        }
+
         private async Task<Customer> CreateCustomerAsync(PaymentRequest request)
         {
             var options = new CustomerCreateOptions
             {
                 Name = request.Username,
-                Email = request.Email
+                Email = request.Email,
+                Metadata = new Dictionary<string, string>()
+                {
+                    {"UserId", request.UserId}
+                }
             };
 
             var service = new CustomerService();
